@@ -1,0 +1,5 @@
+com\di\controller\CustomerController.class
+com\di\service\CustomerService.class
+com\di\service\ICustomerService.class
+com\di\config\AppConfiguration.class
+com\di\test\ApplicationUI.class
