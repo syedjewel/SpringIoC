@@ -10,14 +10,9 @@ import org.springframework.context.annotation.Scope;
 
 
 @Configuration
-@ComponentScan(basePackages={"com.di.controller","com.di.test","com.di.config"})
+@ComponentScan(basePackages={"com.di.controller","com.di.test","com.di.config","com.di.service"})
 public class AppConfiguration {
 
-	@Bean
-	//@Scope("singletone")
-	@Scope("prototype")
-	public CustomerService customerService() {
-		return new CustomerService();
-	}
+	
 
 }
