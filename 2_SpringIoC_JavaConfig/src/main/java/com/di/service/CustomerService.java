@@ -1,24 +1,27 @@
 package com.di.service;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-@Service
+
 public class CustomerService implements ICustomerService {
 
-	private String customerAddress;
-
-	public String getCustomerAddress() {
-		return customerAddress;
+	
+	private String customerName;
+	
+	@Override
+	public String getCustomerName() {
+		// TODO Auto-generated method stub
+		return customerName;
 	}
 
-	public void setCustomerAddress(String customerAddress) {
-		this.customerAddress = customerAddress;
-	}
-
-	public void save(String customerName) {
-		System.out.println(customerName);
+	@Override
+	public void setCustomerName(String customerName) {
+		this.customerName=customerName;
 		
 	}
+
+	
 	
 }

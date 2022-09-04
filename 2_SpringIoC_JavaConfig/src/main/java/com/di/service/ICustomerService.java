@@ -2,7 +2,9 @@ package com.di.service;
 
 public interface ICustomerService {
 	
-	public void save(String customerName);
+    String getCustomerName();
+
+    void setCustomerName(String customerName);
 	
 
 }
