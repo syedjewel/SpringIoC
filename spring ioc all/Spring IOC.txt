@@ -1,0 +1,172 @@
+
+https://medium.com/groupon-eng/dependency-injection-in-java-9e9438aa55ae
+
+    What Is the Spring Container?
+    
+    Spring container is responsible for instantiating, configuring, and assembling the Spring beans. 
+    
+
+
+		Bean Instantiating
+		Bean life-cycle
+		Bean wiring
+		Bean configuration  
+    ========================birds eye view =====================
+    
+    configuration ----> Ioc container () ---> POJO class
+    
+    =======================================
+    
+    What is Configuration Metadata?
+    
+     XML --Annotaion -- Java
+     The configuration metadata is represented in XML, Java annotations, or Java code
+     
+      Three ways we can supply Configuration Metadata to Spring IoC container
+     
+         XML-based,         Annotation-based ,         Java-based configuration
+
+    
+    How to Create a Spring Container?
+    
+    org.springframework.beans and org.springframework.context
+    
+        BeanFactory container
+        ApplicationContext container
+        
+   -------xml---------     
+     
+      XmlBeanFactory factory = new XmlBeanFactory (new ClassPathResource("applicationContext.xml")); 
+     
+      ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+ 
+ 
+    ---------annotation/java----
+ 
+     AnnotationConfigApplicationContext  context = new AnnotationConfigApplicationContext(AppConfig.class);
+    
+    
+    BeanFactory VS ApplicationContext:
+    BeanFactory only instantiates bean when we call getBean() method 
+    while ApplicationContext instantiates singleton bean when the container is started, 
+    It doesn't wait for getBean() method to be called.
+    
+    How to Retrieve Bean from Spring Container?
+    
+    HelloWorld obj = (HelloWorld) context.getBean("helloWorld");
+    
+    BeanFactory --> ApplicationContext -->AnnotationConfigApplicationContext
+    
+    Spring IOC Container XML Config Example
+    Spring IOC Container Java Config Example
+
+
+==============================================DI==========================================
+
+***** Dependency Injection (DI)**********
+
+ The DI Principle is being able to pass (inject) the dependencies inside of the recipient class (Ex. ClassA).
+Without initializing the ClassB in ClassA 
+
+Initializing= new ()
+inject=Don't use new (). 
+  
+    #####################################DI----------------
+    
+    (DI) is a  pattern that implements inversion of control for resolving dependencies.
+    
+    An injection is the passing of a dependency to a dependent object that would use it.
+    
+    (DI) is a process where objects define their dependencies, 
+    that is,  other objects only through constructor arguments,
+     to a factory method, or properties that are set on the object instance after 
+    it is constructed or returned from a factory method. 
+    The container  injects     those dependencies when it creates the bean. 
+    
+    Decouple the construction of your classes from the construction of your classes’ dependencies
+    ---------------   
+    Field-based dependency injection.
+        Constructor-based dependency injection
+        Setter-based dependency injection.
+    ----------------
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+https://www.javagists.com/dependency-injection-design-pattern
+
+Advantages of Dependency Injection
+
+  Decoupling: Code is cleaner with the DI principle and decoupling is more effective when objects are provided with their dependencies.
+  Easier to test: As such, your classes become easier to test
+  
+  
+ Types of Dependency Injection
+ 
+ Field Based Injection
+     Constructor-based dependency injection
+    Setter-based dependency injection.
+    
+  @DependsOn  
+   initialize one or more beans before the bean which is annotated by @DependsOn annotation.
+   
+   @Configuration
+   public class AppConfig {
+   
+       @Bean("firstBean")
+       @DependsOn(value = {
+           "secondBean",
+           "thirdBean"
+    })
+    
+    
+    Autowired :  to mark a dependency  inject
+    use this annotation with a constructor, setter, or field injection.
+    
+    Qualifier: more than one bean of the same type and want to wire only one of them
+    @Qualifier annotation along with the @Autowired annotation .
+    
+        @Qualifier("TwitterService")
+        
+        
+   Scope : 
+   singleton: (Default) Scopes a single bean definition to a single object instance per Spring IoC container.
+   prototype: Scopes a single bean definition to any number of object instances.
+   request: Scopes a single bean definition to the lifecycle of a single HTTP request
+   
+   
+   @PostConstruct and @PreDestroy Example : 
+   
+   Primary : use @Primary to give higher preference to a bean when there are multiple beans of the same type.
+   
+   --------------------------------
+   Bean:
+@Bean annotation is used to indicate that a method instantiates, configures, and initializes a new object
+Configuration:
+@Configuration class itself is registered as a bean definition and all declared @Bean methods 
+@Configuration classes as input when instantiating an AnnotationConfigApplicationContext. 
+
+
+ImportResource:
+Spring provides a @ImportResource annotation is used to load beans from an applicationContext.xml file into an Application Context.
+
+@SpringBootApplication
+@ImportResource({"classpath*:applicationContext.xml"})
+public class Springboot2XmlConfigApplication
+
+-------------------------------------------------------------------------------------
+@PropertySource annotation is used to add any source of key-value pairs to spring’s Environment.
+@PropertySource annotation is used to read the properties files using the @Value annotation and Environment object.
+@PropertySource annotation to externalize your configuration to a properties file
+
+
+@Configuration
+@PropertySource("classpath:postgresql.properties")
+public class PostgreSQLConfig {
+
+   @Value("${jdbc.driver}")
+   private String jdbcDriver;
+   
+   
+Lazy
+Spring IoC container creates and initializes all singleton beans at time of application startup. 
+We can prevent this pre-initialization of a singleton bean by using the @Lazy annotation.
